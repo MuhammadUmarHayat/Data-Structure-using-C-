@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for Priority Queue
+struct Node {
+    int data;
+    int priority;
+    Node* next;
+};
+
+// Priority Queue class
+class PriorityQueue {
+private:
+    Node* head;
+
+public:
+    PriorityQueue() { head = nullptr; }
+
+    // Enqueue an element based on priority
+    void enqueue(int value, int priority) {
+        Node* newNode = new Node();
+        newNode->data = value;
+        newNode->priority = priority;
+        newNode->next = nullptr;
+
+        if (head == nullptr || priority < head->priority) {
+            // Insert at the head if higher priority
+            newNode->next = head;
+            head = newNode;
+        } else {
+            // Traverse to find the position to insert
+            Node* temp = head;
+            while (temp->next != nullptr && temp->next->priority <= priority) {
+                temp = temp->next;
+            }
+            newNode->next = temp->next;
+            temp->next = newNode;
+        }
+        cout << value << " added with priority " << priority << endl;
+    }
+
+    // Dequeue the highest-priority element
+    void dequeue() {
+        if (head == nullptr) {
+            cout << "Priority queue is empty\n";
+            return;
+        }
+        Node* temp = head;
+        head = head->next;
+        cout << temp->data << " dequeued\n";
+        delete temp;
+    }
+
+    // Peek at the highest-priority element
+    int peek() {
+        if (head == nullptr) {
+            cout << "Priority queue is empty\n";
+            return -1;
+        }
+        return head->data;
+    }
+
+    // Check if the queue is empty
+    bool isEmpty() {
+        return head == nullptr;
+    }
+};
+
+int main() {
+    PriorityQueue pq;
+    pq.enqueue(10, 2);
+    pq.enqueue(20, 1);
+    pq.enqueue(30, 3);
+
+    cout << "Top element is " << pq.peek() << endl;
+
+    pq.dequeue();
+    pq.dequeue();
+    pq.dequeue();
+
+    cout << "Is priority queue empty? " << (pq.isEmpty() ? "Yes" : "No") << endl;
+
+    return 0;
+}
