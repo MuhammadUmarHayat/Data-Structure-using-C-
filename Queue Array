@@ -1,0 +1,50 @@
+//Implement Queue structure using an array
+#include <iostream>
+#define SIZE 100
+
+class QueueArray {
+private:
+    int arr[SIZE];
+    int front, rear;
+public:
+    QueueArray() : front(-1), rear(-1) {}
+
+    void enqueue(int x) {
+        if (rear == SIZE - 1) {
+            std::cout << "Queue is full\n";
+            return;
+        }
+        if (front == -1) front = 0;
+        arr[++rear] = x;
+    }
+
+    void dequeue() {
+        if (front == -1 || front > rear) {
+            std::cout << "Queue is empty\n";
+            return;
+        }
+        front++;
+    }
+
+    int peek() {
+        if (front == -1 || front > rear) {
+            std::cout << "Queue is empty\n";
+            return -1;
+        }
+        return arr[front];
+    }
+
+    bool isEmpty() {
+        return front == -1 || front > rear;
+    }
+};
+
+int main() {
+    QueueArray q;
+    q.enqueue(10);
+    q.enqueue(20);
+    std::cout << "Front element is: " << q.peek() << "\n";
+    q.dequeue();
+    std::cout << "Front element is: " << q.peek() << "\n";
+    return 0;
+}
