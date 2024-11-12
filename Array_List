@@ -1,0 +1,74 @@
+#include <iostream>
+
+class ArrayList {
+private:
+    int* arr;
+    int capacity;
+    int size;
+
+public:
+    // Constructor
+    ArrayList(int cap) : capacity(cap), size(0) {
+        arr = new int[capacity];
+    }
+
+    // Destructor
+    ~ArrayList() {
+        delete[] arr;
+    }
+
+    // Add an element to the list
+    void add(int element) {
+        if (size == capacity) {
+            std::cout << "List is full\n";
+            return;
+        }
+        arr[size++] = element;
+    }
+
+    // Remove an element from the list
+    void remove() {
+        if (size == 0) {
+            std::cout << "List is empty\n";
+            return;
+        }
+        size--;
+    }
+
+    // Get an element at a specific index
+    int get(int index) {
+        if (index < 0 || index >= size) {
+            std::cout << "Index out of bounds\n";
+            return -1;
+        }
+        return arr[index];
+    }
+
+    // Get the size of the list
+    int getSize() const {
+        return size;
+    }
+
+    // Print the list
+    void print() {
+        for (int i = 0; i < size; ++i) {
+            std::cout << arr[i] << " ";
+        }
+        std::cout << "\n";
+    }
+};
+
+int main() {
+    ArrayList list(10);
+    list.add(1);
+    list.add(2);
+    list.add(3);
+    list.print(); // Output: 1 2 3
+
+    list.remove();
+    list.print(); // Output: 1 2
+
+    std::cout << "Element at index 1: " << list.get(1) << "\n"; // Output: 2
+
+    return 0;
+}
