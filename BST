@@ -1,0 +1,89 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for the Binary Search Tree
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int value) {
+        data = value;
+        left = right = nullptr;
+    }
+};
+
+// Insert a new node in the BST
+Node* insert(Node* root, int value) {
+    if (root == nullptr) {
+        // Create a new node if the root is empty
+        return new Node(value);
+    }
+
+    // Recur down the tree to find the correct position
+    if (value < root->data) {
+        root->left = insert(root->left, value);
+    } else if (value > root->data) {
+        root->right = insert(root->right, value);
+    }
+
+    return root; // Return the unchanged root pointer
+}
+
+// Search for a value in the BST
+bool search(Node* root, int value) {
+    if (root == nullptr) {
+        return false;
+    }
+    if (root->data == value) {
+        return true;
+    } else if (value < root->data) {
+        return search(root->left, value); // Search in the left subtree
+    } else {
+        return search(root->right, value); // Search in the right subtree
+    }
+}
+
+// In-order traversal (Left, Root, Right)
+void inOrderTraversal(Node* root) {
+    if (root != nullptr) {
+        inOrderTraversal(root->left);
+        cout << root->data << " ";
+        inOrderTraversal(root->right);
+    }
+}
+
+int main() {
+    Node* root = nullptr;
+
+    // Insert elements into the BST
+    root = insert(root, 50);
+    root = insert(root, 30);
+    root = insert(root, 20);
+    root = insert(root, 40);
+    root = insert(root, 70);
+    root = insert(root, 60);
+    root = insert(root, 80);
+
+    // In-order traversal of the BST
+    cout << "In-order Traversal: ";
+    inOrderTraversal(root);
+    cout << endl;
+
+    // Search for elements in the BST
+    int value = 40;
+    if (search(root, value)) {
+        cout << value << " found in the tree.\n";
+    } else {
+        cout << value << " not found in the tree.\n";
+    }
+
+    value = 90;
+    if (search(root, value)) {
+        cout << value << " found in the tree.\n";
+    } else {
+        cout << value << " not found in the tree.\n";
+    }
+
+    return 0;
+}
